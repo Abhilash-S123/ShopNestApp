@@ -6,19 +6,31 @@ import { useNavigate } from "react-router";
 const Cart = () => {
   const { cart, setCart } = useContext(AppContext);
   const navigate = useNavigate();
-  console.log("cart", cart);
 
   const handleDelete = (id) => {
     setCart(cart.filter((product) => product.id !== id));
   };
 
   const addQuantity = (item) => {
-       setCart(cart.map((product) =>  product.id === item.id ? {...product, quantity : product.quantity + 1} : product )) 
-  }
+    setCart(
+      cart.map((product) =>
+        product.id === item.id
+          ? { ...product, quantity: product.quantity + 1 }
+          : product,
+      ),
+    );
+  };
 
   const minusQuantity = (item) => {
-        setCart(cart.map((product) => product.id === item.id ? {...product, quantity : Math.max(1, product.quantity - 1) } : product) )
-  }
+    setCart(
+      cart.map((product) =>
+        product.id === item.id
+          ? { ...product, quantity: Math.max(1, product.quantity - 1) }
+          : product,
+      ),
+    );
+  };
+
   return (
     <>
       <Container>
@@ -51,15 +63,39 @@ const Cart = () => {
                       </Button>
                     </div>
                     <div className="d-flex justify-content-center align-content-center mt-2">
-                      <Button onClick={() => addQuantity(item)} className="me-2">+</Button>
+                      <Button
+                        onClick={() => addQuantity(item)}
+                        className="me-2"
+                      >
+                        +
+                      </Button>
                       <p className="mt-3">{item.quantity}</p>
-                      <Button  onClick={() => minusQuantity(item)} className="ms-2">-</Button>
+                      <Button
+                        onClick={() => minusQuantity(item)}
+                        className="ms-2"
+                      >
+                        -
+                      </Button>
                     </div>
                   </Card.Body>
                 </Card>
               ))}
         </Row>
       </Container>
+      <h1 className="d-flex justify-content-center">
+        {" "}
+        Total :{" "}
+        {cart.reduce((total, item) => total + item.quantity * item.price, 0)} Rs
+      </h1>
+      <h1 className="d-flex justify-content-center">
+        {" "}
+        Discount Price :{" "}
+        {cart.reduce((total, item) => total + item.quantity * item.price, 0) -
+          (cart.reduce((total, item) => total + item.quantity * item.price, 0) *
+            9.8) /
+            100}{" "}
+        Rs
+      </h1>
       {}
     </>
   );
