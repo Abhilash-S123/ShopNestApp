@@ -21,7 +21,7 @@ const Cards = ({
 
   const addProductToCart = (id) => {
     if (cart.some((prod) => prod.id === id)) return;
-    setCart((prev) => [...prev, prod]);
+    setCart((prev) => [...prev, {...prod, quantity : 1}]);
   };
   return (
     <>

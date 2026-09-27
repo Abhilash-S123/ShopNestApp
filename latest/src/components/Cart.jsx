@@ -13,9 +13,12 @@ const Cart = () => {
   };
 
   const addQuantity = (item) => {
-
+       setCart(cart.map((product) =>  product.id === item.id ? {...product, quantity : product.quantity + 1} : product )) 
   }
 
+  const minusQuantity = (item) => {
+        setCart(cart.map((product) => product.id === item.id ? {...product, quantity : Math.max(1, product.quantity - 1) } : product) )
+  }
   return (
     <>
       <Container>
@@ -49,8 +52,8 @@ const Cart = () => {
                     </div>
                     <div className="d-flex justify-content-center align-content-center mt-2">
                       <Button onClick={() => addQuantity(item)} className="me-2">+</Button>
-                      <p className="mt-3">{item['quantity']}</p>
-                      <Button  onClick={() => {}} className="ms-2">-</Button>
+                      <p className="mt-3">{item.quantity}</p>
+                      <Button  onClick={() => minusQuantity(item)} className="ms-2">-</Button>
                     </div>
                   </Card.Body>
                 </Card>
